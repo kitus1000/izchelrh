@@ -1,0 +1,7 @@
+--- Testing Vacation Logic (Today is 2026-03-09) ---
+Caso 1 (Hired: 2024-01-15) | Period: 2023-2024 | Status: Expirado
+Caso 1 (Hired: 2024-01-15) | Period: 2024-2025 | Status: Expirado
+Caso 1 (Hired: 2024-01-15) | Period: 2025-2026 | Status: Disponible
+Caso 2 (Hired: 2024-04-01) | Period: 2024-2025 | Status: Por Vencer
+Caso 3 (Hired: 2026-01-15) | Period: 2025-2026 | Status: Expirado
+Caso 3 (Hired: 2026-01-15) | Period: 2026-2027 | Status: Generándose
