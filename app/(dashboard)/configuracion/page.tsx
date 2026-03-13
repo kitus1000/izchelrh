@@ -178,7 +178,7 @@ export default function ConfiguracionPage() {
 
     async function handleNuclearReset() {
         const confirmPhrase = "BORRAR TODO"
-        const userInput = prompt(`⚠️ ADVERTENCIA: Esta acción borrará TODOS los datos (empleados, catálogos, asistencias). \n\nPara continuar, escriba exactamente: ${confirmPhrase}`)
+        const userInput = prompt(`⚠️ ADVERTENCIA: Esta acción borrará a todos los empleados y sus datos (historiales, asistencias, solicitudes).\n\nLos catálogos base (Departamentos, Festivos, Calendario) NO se borrarán para mantener la estructura.\n\nPara continuar, escriba exactamente: ${confirmPhrase}`)
 
         if (userInput !== confirmPhrase) {
             alert('Acción cancelada.')
