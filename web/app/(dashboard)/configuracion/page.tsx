@@ -199,26 +199,20 @@ export default function ConfiguracionPage() {
                 'solicitudes',
                 'checadas',
                 'permisos_autorizados',
-                'empleados',
-                'cat_puestos',
-                'cat_departamentos'
+                'vacaciones_saldos',
+                'bajas',
+                'empleados'
             ]
 
-            const filters: Record<string, string> = {
-                'cat_puestos': 'id_puesto',
-                'cat_departamentos': 'id_departamento',
-                'default': 'id_empleado'
-            }
-
+            // Todos estos usan id_empleado como llave principal o foránea para el borrado
             for (const table of tablesToClear) {
-                const filterCol = filters[table] || filters['default']
-                const { error } = await supabase.from(table).delete().neq(filterCol, '00000000-0000-0000-0000-000000000000')
+                const { error } = await supabase.from(table).delete().neq('id_empleado', '00000000-0000-0000-0000-000000000000')
                 if (error && error.code !== 'PGRST116') {
                     console.warn(`Error clearing ${table}:`, error.message)
                 }
             }
 
-            alert('El sistema ha sido reiniciado correctamente.')
+            alert('El sistema ha sido limpiado de personal y transacciones. La estructura base se mantiene intacta.')
             window.location.reload()
         } catch (e: any) {
             alert('Error en el reinicio: ' + e.message)
@@ -429,7 +423,7 @@ export default function ConfiguracionPage() {
                 <div className="mt-4 p-4 bg-zinc-50 rounded-lg flex items-start border border-zinc-100">
                     <AlertCircle className="w-5 h-5 text-zinc-400 mt-0.5 mr-2" />
                     <p className="text-[10px] text-zinc-500 italic">
-                        Nota: El reinicio nuclear borra empleados, historial, asistencias y catálogos. No afecta la configuración institucional de la empresa ni los usuarios del sistema. Use con extrema precaución.
+                        Nota: El reinicio nuclear borra <b>únicamente empleados, historiales, solicitudes y asistencias</b>. Se conservarán los departamentos, puestos, festivos, roles y tipos de incidencias para que el calendario y la estructura operen sin problemas al añadir nuevo personal.
                     </p>
                 </div>
             </div>
