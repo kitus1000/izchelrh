@@ -65,7 +65,9 @@ function ManualCheckInContent() {
         setStatus(null)
 
         try {
-            const timestamp = `${form.fecha}T${form.hora}:00`
+            // Crear objeto Date con la fecha y hora seleccionada (en hora local del navegador)
+            const dateObj = new Date(`${form.fecha}T${form.hora}:00`);
+            const timestamp = dateObj.toISOString();
 
             // 1. Obtener el número de empleado (el API requiere id_empleado_token que es numero_empleado)
             const { data: empData, error: empErr } = await supabase

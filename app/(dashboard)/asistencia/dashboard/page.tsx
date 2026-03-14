@@ -8,7 +8,7 @@ import Link from 'next/link'
 export default function AsistenciaDashboard() {
     const [checadas, setChecadas] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0])
+    const [selectedDate, setSelectedDate] = useState(new Date().toLocaleDateString('en-CA')) // yyyy-mm-dd local
     const [stats, setStats] = useState({
         totalChecadas: 0,
         puntuales: 0,
@@ -159,7 +159,7 @@ export default function AsistenciaDashboard() {
                 <div className="p-4 border-b border-zinc-100 bg-zinc-50 rounded-t-xl flex justify-between items-center">
                     <h2 className="font-semibold text-zinc-800 flex items-center gap-2">
                         <Activity className="w-4 h-4 text-zinc-400" />
-                        Registros {selectedDate === new Date().toISOString().split('T')[0] ? 'de Hoy' : `del ${selectedDate}`}
+                        Registros {selectedDate === new Date().toLocaleDateString('en-CA') ? 'de Hoy' : `del ${selectedDate}`}
                     </h2>
                 </div>
 
