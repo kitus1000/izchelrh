@@ -23,7 +23,8 @@ export async function GET() {
             puestosError: puestosErr,
             firstPuesto: puestos && puestos[0] ? puestos[0] : null,
             env: {
-                url: supabaseUrl ? 'set' : 'not set',
+                url: supabaseUrl ? `${supabaseUrl.substring(0, 12)}...${supabaseUrl.substring(supabaseUrl.length - 12)}` : 'not set',
+                projectId: supabaseUrl ? supabaseUrl.split('//')[1].split('.')[0] : 'not found',
                 key: supabaseKey ? 'set' : 'not set'
             }
         })
