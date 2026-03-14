@@ -187,28 +187,30 @@ export default function ConfiguracionPage() {
 
         try {
             setSaving(true)
+            // Array ordenado de dependencias (hijos primero, padres después)
             const tablesToClear = [
-                'empleado_incidencias',
-                'empleado_adscripciones',
-                'empleado_ingreso',
-                'empleado_roles',
-                'empleado_salarios',
-                'empleado_banco',
-                'empleado_domicilio',
-                'asistencias',
-                'solicitudes',
-                'checadas',
-                'permisos_autorizados',
-                'vacaciones_saldos',
-                'bajas',
-                'empleados'
+                { table: 'checadas', column: 'id' },
+                { table: 'permisos_autorizados', column: 'id' },
+                { table: 'empleado_incidencias', column: 'id_incidencia' },
+                { table: 'empleado_adscripciones', column: 'id_empleado' },
+                { table: 'empleado_ingreso', column: 'id_empleado' },
+                { table: 'empleado_roles', column: 'id_empleado' },
+                { table: 'empleado_salarios', column: 'id_empleado' },
+                { table: 'empleado_banco', column: 'id_empleado' },
+                { table: 'empleado_domicilio', column: 'id_empleado' },
+                { table: 'empleado_turnos', column: 'id' },
+                { table: 'vacaciones_saldos', column: 'id_empleado' },
+                { table: 'solicitud_aprobaciones', column: 'id_solicitud' },
+                { table: 'bajas', column: 'id_empleado' },
+                { table: 'solicitudes', column: 'id_solicitud' },
+                { table: 'asistencias', column: 'id' }, // Try to delete if exists, we'll catch the error if it doesn't
+                { table: 'empleados', column: 'id_empleado' }
             ]
 
-            // Todos estos usan id_empleado como llave principal o foránea para el borrado
-            for (const table of tablesToClear) {
-                const { error } = await supabase.from(table).delete().neq('id_empleado', '00000000-0000-0000-0000-000000000000')
-                if (error && error.code !== 'PGRST116') {
-                    console.warn(`Error clearing ${table}:`, error.message)
+            for (const item of tablesToClear) {
+                const { error } = await supabase.from(item.table).delete().neq(item.column, '00000000-0000-0000-0000-000000000000')
+                if (error && error.code !== 'PGRST116' && !error.message.includes('relation "public.asistencias" does not exist')) {
+                    console.warn(`Error clearing ${item.table}:`, error.message)
                 }
             }
 
