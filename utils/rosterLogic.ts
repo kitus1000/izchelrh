@@ -106,6 +106,7 @@ export function calculateDailyStatus(
 
     // ── 1. Incidencias aprobadas (mayor prioridad) ───────────────────────
     const incident = Array.isArray(incidents) ? incidents.find(inc => {
+        if (!inc.fecha_inicio || !inc.fecha_fin) return false;
         const startStr = inc.fecha_inicio.includes('T') ? inc.fecha_inicio.split('T')[0] : inc.fecha_inicio
         const endStr = inc.fecha_fin.includes('T') ? inc.fecha_fin.split('T')[0] : inc.fecha_fin
         return targetStr >= startStr && targetStr <= endStr
@@ -172,6 +173,10 @@ export function calculateDailyStatus(
         return { status: 'Sin Rol', label: '–', color: 'bg-zinc-50 text-zinc-300', details: 'Sin rol asignado' }
     }
 
+    if (!role.fecha_inicio) {
+        return { status: 'Sin Rol', label: '–', color: 'bg-zinc-50 text-zinc-300', details: 'Configuración de rol incompleta (sin fecha)' }
+    }
+    
     const roleStart = parseISO(role.fecha_inicio)
     const daysElapsed = differenceInCalendarDays(targetDate, roleStart)
 
